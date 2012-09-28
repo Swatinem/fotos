@@ -23,12 +23,12 @@ $(function () {
 			currentFoto = foto;
 			var offset = this.parentNode;
 			var el = $(this);
-			el.addClass('fullscreen');
 			el.css({
 				top: (html.scrollTop - offset.offsetTop) + 'px',
 				left: (html.scrollLeft - offset.offsetLeft) + 'px',
 				width: html.offsetWidth + 'px',
 				height: html.offsetHeight + 'px'});
+			el.addClass('fullscreen');
 			setTimeout(function () {
 				populate($('.container:not(.next):not(.prev)', overlay), foto);
 				overlay.addClass('show');
