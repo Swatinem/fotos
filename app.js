@@ -11,6 +11,7 @@ var express = require('express')
 var app = express();
 
 var publicdir = path.join(__dirname, 'public');
+var rawdir = process.env.RAW || path.join(__dirname, 'public', 'raw');
 
 app.configure(function(){
 	app.set('port', process.env.PORT || 3000);
@@ -31,7 +32,7 @@ app.configure('development', function(){
 });
 
 app.get('/', function (req, res, next) {
-	fs.readdir(__dirname + '/public/raw', function (err, files) {
+	fs.readdir(rawdir, function (err, files) {
 		files.sort();
 		res.render('index', {
 			fotos: files.map(function (foto) {
@@ -39,6 +40,9 @@ app.get('/', function (req, res, next) {
 			})
 		});
 	});
+});
+app.get('/raw/:img', function (req, res, next) {
+	res.sendfile(path.join(rawdir, req.params.img));
 });
 
 if (!module.parent) {
