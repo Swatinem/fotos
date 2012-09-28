@@ -53,5 +53,5 @@ NODE_ENV=production PORT=3001 RAW=/var/www/fotos forever start fotos/app.js
   * figure out what to do with `dateFormat`
 * Support subdirectories
 * Preload prev/next images in the frontend
-* fix aspect ratio for wide images
+* wtf? Flickering when clicking... ?!?
 

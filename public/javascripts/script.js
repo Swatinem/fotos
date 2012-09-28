@@ -15,7 +15,7 @@ $(function () {
 	var template = $('.screens .template');
 	fotos.forEach(function (foto) {
 		var el = template.clone().removeClass('template');
-		$('img', el).attr('src', '/thumb/320x240/' + foto.image);
+		$('.img', el).css('background-image', 'url(/thumb/320x240/' + foto.image + ')');
 		el.data('foto', foto);
 		el.insertBefore(template);
 
@@ -118,7 +118,7 @@ function closeOverlay() {
 
 function populate(container, data) {
 	$('a.close', container).on('click', closeOverlay);
-	$('img', container).attr('src', '/raw/' + data.image);
+	$('.img', container).css('background-image', 'url(/raw/' + data.image + ')');
 	$('.original', container).attr({
 		href: '/raw/' + data.image,
 		title: 'open original (' + data.width + '×' + data.height + ')'});
