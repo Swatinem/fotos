@@ -11,6 +11,7 @@
     "stylus": "*",
     "mkdirp": "*",
     "imagemagick": "*",
-    "batch": "*"
+    "batch": "*",
+    "exif": "*"
   }
 }

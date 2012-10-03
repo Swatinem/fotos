@@ -45,10 +45,10 @@ NODE_ENV=production PORT=3001 RAW=/var/www/fotos forever start fotos/app.js
 # TODO
 
 * Zoom out should return to the current picture, not the one which was zoomed in on
-* Cache the directory content so we don’t need to read the metadata all the time.
+* ✔ Cache the directory content so we don’t need to read the metadata all the time.
   * use `fs.watchFile` to catch file changes or additions
   * clear a files thumbnails if the file changed
-  * figure out how to better read the metadata, maybe use `exif` instead of `imagemagick` for that
+  * maybe a different `batch` lib that supports parrallelism setting?
 * Modularize frontend using `component`
   * figure out what to do with `dateFormat`
 * Support subdirectories
