@@ -3,7 +3,6 @@ html
 	head
 		title Fotos.js
 		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-		script(type="text/javascript", src="http://code.jquery.com/jquery.min.js")
 		link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
 		script(type="text/javascript", src="/javascripts/script.js")
 		block scripts
@@ -12,14 +11,16 @@ html
 			li.template
 				.container
 					.img
+		#throbber
 		#overlay
 			for klass in ['prev', '', 'next']
 				.container(class=klass)
 					.img
-						img
 					.bottom-bar
 						.inner
 							a.close(title="close") ⤓
 							a.original ⤢
 							h2.description
 							span.date
+		script(type="text/javascript")
+			require('fotos');

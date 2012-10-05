@@ -1,0 +1,20 @@
+{
+  "name": "fotos",
+  "repo": "Swatinem/fotos",
+  "description": "A small gallery",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/jquery": "*",
+    "Swatinem/throbber.js": "*",
+    "component/preloader": "*",
+    "component/emitter": "*"
+  },
+  "development": {},
+  "scripts": [
+    "index.js",
+    "overlay.js",
+    "preview.js",
+    "dateformat.js"
+  ]
+}

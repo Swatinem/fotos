@@ -1,3 +1,5 @@
 node_modules
 components
 build
+public/stylesheets/style.css
+public/javascripts/script.js

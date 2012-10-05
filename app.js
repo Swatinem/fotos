@@ -45,7 +45,9 @@ app.get('/', function (req, res, next) {
 	});
 });
 app.get('/raw/:img', function (req, res, next) {
-	res.sendfile(path.join(rawdir, req.params.img));
+	setTimeout(function () {
+		res.sendfile(path.join(rawdir, req.params.img));
+	}, 2000);
 });
 app.get('/thumb/:dimensions(\\d+x?\\d+?)/:img', function (req, res, next) {
 	Image.ensureThumbnail(rawdir, thumbdir, req.params.dimensions, req.params.img, function (err, img) {
