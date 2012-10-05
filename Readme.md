@@ -49,4 +49,5 @@ NODE_ENV=production PORT=3001 RAW=/var/www/fotos forever start fotos/app.js
   * clear a files thumbnails if the file changed
   * maybe a different `batch` lib that supports parrallelism setting?
 * Support subdirectories
+  * Use `page.js`?
 
