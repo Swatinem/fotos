@@ -1,7 +1,7 @@
 module.exports = Overlay;
 
 var $ = require('jquery');
-var dateFormat = require('./dateformat');
+var moment = require('moment');
 var Emitter = require('emitter');
 
 function Overlay(options) {
@@ -52,11 +52,11 @@ Overlay.prototype.previous = function (foto) {
 };
 Overlay.prototype.populate = function (container, foto) {
 	$('a.close', container).on('click', function () { this.close(); }.bind(this));
-	$('.img', container).css('background-image', 'url(/raw/' + foto.image + ')');
+	$('.img', container).css('background-image', 'url(/raw/' + encodeURIComponent(foto.image) + ')');
 	$('.original', container).attr({
 		href: '/raw/' + foto.image,
 		title: 'open original (' + foto.width + '×' + foto.height + ')'});
 	$('.description', container).text(foto.description);
-	$('.date', container).text(dateFormat(foto.date, 'UTC:dd.mm.yyyy HH:MM:ss'));
+	$('.date', container).text(moment.utc(foto.date).format('DD.MM.YYYY HH:MM:SS'));
 };
 

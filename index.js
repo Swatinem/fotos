@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var dateFormat = require('./dateformat');
+var page = require('page');
 var Throbber = require('throbber');
 var Preloader = require('preloader');
 var Overlay = require('./overlay');
@@ -7,13 +7,38 @@ var Preview = require('./preview');
 
 var delay = 250;
 
-var currentFoto;
-
 var html = document.querySelector('html');
 var container = document.querySelector('.screens');
 var throbberElem = $('#throbber');
 var throbber = new Throbber({size: 200, fade: 250, strokewidth: 5, lines: 20}).appendTo(throbberElem.get(0));
 var overlay = new Overlay();
+
+// automatic sizing…
+var picWidth = 120 + 2 * 10;
+var containerPadding = 2 * 70;
+function resize() {
+	// + 1 for rounding errors on transitions...
+	var width = Math.floor((html.offsetWidth - containerPadding) / picWidth) * picWidth + 1;
+	container.style.width = width + 'px';
+}
+resize();
+$(window).on('resize', resize);
+
+page('*', function (ctx, next) {
+
+var dir = ctx.path.substr(1).replace('/', '-');
+
+$.getJSON('/images' + (dir ? '-' : '') + dir + '.json', function (json) {
+
+// TODO: this needs to be better
+$('<ul/>').html(json.directories.map(function (dir) {
+	return '<li><a href="/' + encodeURIComponent(dir) + '">' + dir + '</a></li>';
+}).join('')).insertBefore('.screens');
+
+var fotos = json.images;
+
+// TODO: need better async support
+var currentFoto;
 
 fotos.forEach(function (foto) {
 	foto.preview = new Preview(foto);
@@ -48,17 +73,6 @@ function neighbors(foto) {
 		ret.next = fotos[i + 1];
 	return ret;
 }
-
-// automatic sizing...
-var picWidth = 120 + 2 * 10;
-var containerPadding = 2 * 70;
-function resize() {
-	// + 1 for rounding errors on transitions...
-	var width = Math.floor((html.offsetWidth - containerPadding) / picWidth) * picWidth + 1;
-	container.style.width = width + 'px';
-}
-resize();
-$(window).on('resize', resize);
 
 // register prev/next handlers
 overlay.on('click', function () {
@@ -125,3 +139,9 @@ function preload(fotos, cb) {
 	});
 	preloader.end(cb || function () {});
 }
+
+}); // getJSON
+
+}); // page
+
+page({click: false}); // FIXME: make this work with click: true :-)

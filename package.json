@@ -12,6 +12,10 @@
     "mkdirp": "*",
     "imagemagick": "*",
     "batch": "*",
-    "exif": "*"
+    "exif": "*",
+    "debug": "*"
+  },
+  "devDependencies": {
+    "component": "*"
   }
 }

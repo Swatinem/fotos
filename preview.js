@@ -10,7 +10,7 @@ function Preview(foto) {
 	Emitter.call(this);
 	this.foto = foto;
 	this.elem = $('.container', template.clone().removeClass('template').insertBefore(template));
-	$('.img', this.elem).css('background-image', 'url(/thumb/280x210/' + foto.image + ')');
+	$('.img', this.elem).css('background-image', 'url(/thumb/280x210/' + encodeURIComponent(foto.image) + ')');
 	this.elem.on('click', function () {
 		this.open();
 		this.emit('click');

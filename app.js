@@ -6,14 +6,20 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
+  , fs = require('fs')
   , Directory = require('./lib/directory')
   , Image = require('./lib/image');
 
 var app = express();
 
 var publicdir = path.join(__dirname, 'public');
-var rawdir = process.env.RAW || path.join(__dirname, 'public', 'raw');
-var thumbdir = process.env.THUMB || path.join(__dirname, 'public', 'thumb');
+
+var options = {
+	raw: process.env.RAW || path.join(__dirname, 'public', 'raw'),
+	cache: process.env.CACHE || path.join(__dirname, 'public', 'cache')
+};
+
+var dir = new Directory('', options);
 
 app.configure('development', function(){
 	app.use(express.logger('dev'));
@@ -28,32 +34,29 @@ app.configure(function(){
 	//app.use(express.favicon());
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(app.router);
 	app.use(require('stylus').middleware(publicdir));
 	app.use(express.static(publicdir));
+	app.use(express.static(options.cache));
+	app.use(app.router);
 });
 
-var dir = new Directory(rawdir);
-
-app.get('/', function (req, res, next) {
-	dir.getContents(function (err, contents) {
-		if (err)
-			next(err);
-		res.render('index', {
-			fotos: contents.images
-		});
-	});
+app.get(/^\/raw\/(.*)$/, function (req, res, next) {
+	res.sendfile(path.join(options.raw, req.params[0]));
 });
-app.get('/raw/:img', function (req, res, next) {
-	setTimeout(function () {
-		res.sendfile(path.join(rawdir, req.params.img));
-	}, 2000);
-});
-app.get('/thumb/:dimensions(\\d+x?\\d+?)/:img', function (req, res, next) {
-	Image.ensureThumbnail(rawdir, thumbdir, req.params.dimensions, req.params.img, function (err, img) {
+app.get(/^\/thumb\/(\d+x?\d+?)\/(.*)/, function (req, res, next) {
+	Image.ensureThumbnail(options.raw, options.cache, req.params[0], req.params[1], function (err, img) {
 		if (err)
 			return next(err);
 		res.sendfile(img);
+	});
+});
+
+app.get('/*', function (req, res, next) {
+	fs.exists(path.join(options.raw, req.params[0]), function (exists) {
+		if (exists)
+			res.render('index');
+		else
+			next();
 	});
 });
 

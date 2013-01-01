@@ -1,12 +1,13 @@
 all: public/javascripts/script.js
 
-COMPONENT_FILES := index.js dateformat.js overlay.js preview.js
+COMPONENT_FILES := index.js overlay.js preview.js
 
 build/build.js: components $(COMPONENT_FILES)
-	@component build --dev
+	@node_modules/.bin/component build --dev
 
-components:
-	@component install --dev
+components: component.json
+	@node_modules/.bin/component install --dev
+	@touch components
 
 public/javascripts/script.js: build/build.js
 	mkdir -p public/javascripts
