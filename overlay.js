@@ -57,6 +57,6 @@ Overlay.prototype.populate = function (container, foto) {
 		href: '/raw/' + foto.image,
 		title: 'open original (' + foto.width + '×' + foto.height + ')'});
 	$('.description', container).text(foto.description);
-	$('.date', container).text(moment.utc(foto.date).format('DD.MM.YYYY HH:MM:SS'));
+	$('.date', container).text(moment.utc(foto.date).format('DD.MM.YYYY HH:mm:ss'));
 };
 
